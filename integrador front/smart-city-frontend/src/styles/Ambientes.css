@@ -1,0 +1,74 @@
+/* Container principal para toda a página */
+.pagina-ambientes {
+  display: flex;          /* lado a lado */
+  min-height: 100vh;
+  background-color: #f0f4f8;
+  font-family: Arial, sans-serif;
+}
+
+/* Barra lateral */
+.barra-lateral {
+  width: 60px;          /* ajuste a largura conforme a barra real */
+  background-color: #0e1a33;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+/* Conteúdo principal ao lado da barra */
+.conteudo-ambientes {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Cabeçalho e lista mantém seu estilo */
+.cabecalho-ambientes {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.cabecalho-ambientes h1 {
+  font-size: 2rem;
+  color: #0e1a33;
+  padding: 0 2rem; /* ADICIONA padding nas laterais */
+}
+
+.cabecalho-ambientes p {
+  font-size: 1rem;
+  color: #555;
+  padding: 0 2rem; /* ADICIONA padding nas laterais */
+}
+
+.lista-ambientes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.cartao-ambiente {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 280px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cartao-ambiente h2 {
+  color: #0e1a33;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.cartao-ambiente p {
+  color: #333;
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+}
+
+.vazio {
+  font-style: italic;
+  text-align: center;
+  color: #999;
+}

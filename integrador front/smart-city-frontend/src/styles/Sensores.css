@@ -1,0 +1,79 @@
+/* src/styles/Sensores.css */
+
+.pagina-sensores {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f4f8;
+}
+
+.conteudo {
+  flex: 1;
+  padding: 2rem;
+}
+
+.cabecalho {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 0 2rem;
+}
+
+
+.cabecalho h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.filtro-input {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.tabela-sensores table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tabela-sensores th,
+.tabela-sensores td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.tabela-sensores th {
+  background-color: #f0f0f0;
+  color: #444;
+}
+
+.acoes {
+  display: flex;
+  gap: 1rem;
+}
+
+.editar {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.excluir {
+  background: none;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+}
+
+.excluir:hover,
+.editar:hover {
+  text-decoration: underline;
+}
