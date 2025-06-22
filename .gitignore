@@ -2,4 +2,5 @@
 /venv
 /.venv
 /.env
-node_modules
+node_modules/
+.cache/
