@@ -1,47 +1,102 @@
-/* src/styles/Historico.css */
-
+/* Styling for the main historical data page layout */
 .pagina-historico {
   display: flex;
   min-height: 100vh;
   background-color: #f0f4f8;
 }
 
+/* Styling for the main container of historical data, now without card appearance */
 .historico-container {
   padding: 2rem;
+  /* Mantém o padding interno */
   flex: 1;
-  background-color: white;
-  margin: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* Permite que ocupe o espaço disponível */
+  background-color: transparent;
+  /* Remove o fundo branco */
+  margin: 0;
+  /* Remove a margem que criava o "card" */
+  border-radius: 0;
+  /* Remove o arredondamento */
+  box-shadow: none;
+  /* Remove a sombra */
+  display: flex;
+  flex-direction: column;
 }
 
+/* Styling for the header section of the history page */
 .historico-header h1 {
-  font-size: 1.8rem;
+  font-weight: bold;
   margin-bottom: 1.5rem;
   color: #0e1a33;
+  font-size: 1.8rem;
 }
 
+/* Styling for the filter input field */
+.filtro-input {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 400px;
+  font-weight: normal;
+  margin-bottom: 1.5rem;
+}
+.icon-pesquisa-historico {
+    position: absolute;
+    right: 870px;
+    top: 39%;
+    transform: translateY(-50%);
+    
+    color: #0e1a33;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 100%;
+    padding: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    box-sizing: content-box;
+    z-index: 1;
+}
+
+
+/* Styling for the historical data table */
 .historico-tabela {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
+  background-color: white;
+  /* Move o fundo branco para a tabela */
+  border-radius: 8px;
+  /* Adiciona arredondamento à tabela */
+  overflow: hidden;
+  /* Garante que o border-radius funcione */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* Adiciona sombra à tabela */
 }
+
 
 .historico-tabela thead {
   background-color: #e5e7eb;
   font-weight: bold;
 }
 
+
 .historico-tabela th,
 .historico-tabela td {
   padding: 0.75rem;
   border: 1px solid #d1d5db;
   text-align: left;
+  font-weight: normal;
 }
 
 .historico-tabela tr:nth-child(even) {
   background-color: #f9fafb;
 }
+
 
 .historico-json {
   background-color: #f3f4f6;
@@ -51,4 +106,5 @@
   overflow: auto;
   font-size: 0.85rem;
   white-space: pre-wrap;
+  font-weight: normal;
 }

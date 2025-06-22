@@ -1,0 +1,23 @@
+.cabecalho-principal {
+    background-color: #ffffff; 
+    padding: 10px 20px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    width: 100%;
+    box-sizing: border-box; 
+}
+
+.conteudo-cabecalho {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    height: 100px; 
+}
+
+.logo-cabecalho {
+    height: 100%; 
+    width: auto; 
+    border-radius: 100%;
+}
+

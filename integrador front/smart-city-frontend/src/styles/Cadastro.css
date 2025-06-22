@@ -1,0 +1,134 @@
+/* Página de Login */
+.pagina-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Container do formulário */
+.login-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Título */
+.login-form h1 {
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+/* Label dos campos */
+.login-form label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 600;
+}
+
+/* Campos de entrada */
+.input-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-wrapper input {
+    width: calc(100% - 40px);
+    padding: 12px 15px 12px 40px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.input-wrapper input:focus {
+    border-color: #71b7e6;
+    outline: none;
+}
+
+.input-wrapper .icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 1.2em;
+}
+
+/* Mensagens de erro e sucesso */
+.error {
+    color: #e74c3c;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    text-align: left;
+}
+
+.success {
+    color: #28a745;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    text-align: left;
+}
+
+/* Botão de login com borda branca */
+.login-form button {
+    width: 100%;
+    padding: 15px;
+    background-color: #71b7e6;
+    color: #fff;
+    border: 2px solid #ffffff; /* Borda branca */
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px;
+}
+
+.login-form button:hover {
+    background-color: #5a9edb;
+    transform: translateY(-2px);
+}
+
+.login-form button:active {
+    transform: translateY(0);
+}
+* In your cadastro.css */
+.login, /* <--- Add .login here */
+.register-link-container {
+    margin-top: 25px;
+    font-size: 0.9em;
+    color: #ffffff;
+    text-align: center;
+}
+
+.login a, /* <--- Add .login a here */
+.register-link-container a {
+    color: #ffffff !important; /* Keep !important for stronger override */
+    text-decoration: underline;
+    font-weight: bold;
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.login a:hover, /* <--- Add .login a:hover here */
+.register-link-container a:hover {
+    color: #f0f0f0;
+    text-decoration: none;
+    opacity: 0.9;
+}

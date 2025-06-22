@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_spectacular',
-    'app_city'
+    'app_city',
+    'corsheaders',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
@@ -82,8 +83,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+# Libere o IP do seu front-end (substitua pelo IP correto da máquina que está rodando o React)
+CORS_ALLOWED_ORIGINS = [
+    "http://192.168.15.3:3000",
+    "http://localhost:3000",
 ]
 
+# Se precisar liberar para todos (teste apenas, não recomendado em produção)
+# CORS_ALLOW_ALL_ORIGINS = True
+
+# Caso sua API use autenticação com credenciais (cookies, etc)
+CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = 'cidade_inteligente.urls'
 
 TEMPLATES = [

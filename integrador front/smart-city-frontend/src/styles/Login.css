@@ -29,11 +29,14 @@
 .login-form h1 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
+  font-weight: bold;
 }
 
 /* Estilização dos labels e campos */
 .login-form label {
   font-size: 0.9rem;
+  font-weight: normal;
+
 }
 
 .input-wrapper {
@@ -46,6 +49,8 @@
   border: none;
   border-radius: 0.5rem;
   font-size: 0.95rem;
+  font-weight: normal;
+  /* Adjusted: Input text usually normal weight */
 }
 
 /* Ícone à direita dentro do input */
@@ -54,21 +59,17 @@
   right: 0.8rem;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1rem;
+  font-size: 1.5rem;
   pointer-events: none;
-  color: #555;        
-  font-size: 1.5rem;  
-}
-.input-wrapper {
-  position: relative;
+  color: #555;
 }
 
 /* Botão de login */
 .login-form button {
   padding: 0.6rem;
-  background-color: #ffffff;
-  color: #0e1a33;
-  border: none;
+  background-color: #0F2343;
+  color: #ffffff;
+  border: 1px solid #ffffff; /* Borda branca */
   border-radius: 0.4rem;
   font-weight: bold;
   cursor: pointer;
@@ -76,7 +77,7 @@
 }
 
 .login-form button:hover {
-  background-color: #64b0f7;
+  background-color: #0B1C37 ;
 }
 
 /* Erro */
@@ -84,4 +85,20 @@
   color: #a81111;
   font-size: 0.85rem;
   margin-top: -0.5rem;
+  font-weight: normal;
+
+}
+.cadastre-se {
+  color: #ffffff; /* This makes the text "Não tem uma conta?" white */
+}
+
+.cadastre-se a {
+  color: #ffffff; /* This specifically targets the Link (anchor tag) inside .cadastre-se and makes it white */
+  text-decoration: underline; /* You might still want an underline for links, or set to 'none' */
+}
+
+/* Optional: Add a hover effect for the link */
+.cadastre-se a:hover {
+  text-decoration: none; /* Remove underline on hover, or change color slightly */
+  opacity: 0.8; /* Slightly fade on hover */
 }

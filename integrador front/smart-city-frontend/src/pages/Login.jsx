@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link
 import { loginAPI } from '../api/auth';
 import { useAuth } from '../auth/AuthContext';
 import { IoPersonCircleOutline } from "react-icons/io5";
@@ -7,8 +7,8 @@ import { Bs123 } from "react-icons/bs";
 import '../styles/Login.css';
 
 const Login = () => {
-  const [nome, setNome] = useState(''); // primeiro nome do usuário
-  const [matricula, setMatricula] = useState(''); // número de matrícula
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -16,12 +16,20 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // substituindo os parâmetros email/senha por nome/matricula
-      const response = await loginAPI(nome, matricula);
-      login(response.data.access);
-      navigate('/dashboard');
+      const response = await loginAPI(username, password);
+      console.log('Resposta do login:', response.data);
+
+      if (response.data && response.data.access) {
+        login(response.data.access);
+        console.log('Token salvo, navegando para /sensores');
+        navigate('/sensores');
+      } else {
+        console.log('Token não recebido, erro no login');
+        setError('Usuário ou senha inválidos.');
+      }
     } catch (err) {
-      setError('Nome ou matrícula inválidos.');
+      console.error('Erro na requisição:', err);
+      setError('Usuário ou senha inválidos.');
     }
   };
 
@@ -31,37 +39,40 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="login-form">
           <h1>Login</h1>
 
-          <label htmlFor="nome">Primeiro Nome</label>
+          <label htmlFor="username">Usuário</label>
           <div className="input-wrapper">
             <input
-              id="nome"
+              id="username"
               type="text"
-              placeholder="Ex: Maria"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
+              placeholder="Ex: maria"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
-            <IoPersonCircleOutline className="icon"/>
-            
+            <IoPersonCircleOutline className="icon" />
           </div>
 
-          <label htmlFor="matricula">Matrícula</label>
+          <label htmlFor="password">Senha</label>
           <div className="input-wrapper">
             <input
-              id="matricula"
-              type="text"
+              id="password"
+              type="password"
               placeholder="Ex: 123456"
-              value={matricula}
-              onChange={(e) => setMatricula(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Bs123 className="icon"/>
-           
+            <Bs123 className="icon" />
           </div>
 
           {error && <p className="error">{error}</p>}
 
           <button type="submit">Acessar conta</button>
+
+          {/* New registration link */}
+          <p className="cadastre-se">
+            Não tem uma conta? <Link to="/cadastro">Cadastre-se aqui</Link>
+          </p>
         </form>
       </section>
     </main>

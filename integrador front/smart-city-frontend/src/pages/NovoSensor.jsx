@@ -1,48 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createSensor } from '../api/sensores';
 import { useAuth } from '../auth/AuthContext';
-import Lateral from '../components/Lateral';
 import '../styles/NovoSensor.css';
-import axios from 'axios';
+import { WiCelsius } from "react-icons/wi";
+import { IoThermometerOutline,  IoBusiness,IoPinSharp  } from "react-icons/io5";
+import { Bs123 } from "react-icons/bs";
+import { BsPlusSlashMinus } from "react-icons/bs";
 
 const NovoSensor = () => {
   const [tipo, setTipo] = useState('');
-  const [macAddress, setMacAddress] = useState('');
-  const [unidadeMedida, setUnidadeMedida] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
-  const [status, setStatus] = useState(true);
   const [ambiente, setAmbiente] = useState('');
-  const [ambientes, setAmbientes] = useState([]);
+  const [valor, setValor] = useState('');
+  const [macAddress, setMacAddress] = useState('');
+  const [situacao, setSituacao] = useState('ativo');
+  const [longitude, setLongitude] = useState('');
+  const [latitude, setLatitude] = useState('');
 
   const { token } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchAmbientes = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/ambientes/', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setAmbientes(response.data);
-      } catch (error) {
-        console.error('Erro ao buscar ambientes:', error);
-      }
-    };
-    fetchAmbientes();
-  }, [token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const novoSensor = {
       tipo,
+      ambiente,
+      valor,
       mac_address: macAddress,
-      unidade_medida: unidadeMedida,
+      status: situacao === 'ativo',
       latitude: parseFloat(latitude),
       longitude: parseFloat(longitude),
-      status,
-      ambiente: ambiente || null,
     };
 
     try {
@@ -55,105 +42,132 @@ const NovoSensor = () => {
 
   return (
     <main className="pagina-novo-sensor">
-      <Lateral />
-      <article className="formulario-container">
-        <header className="cabecalho-formulario">
-          <h1 className="titulo-formulario">Cadastrar Novo Sensor</h1>
+      <article className="content-area">
+        <header className="page-header">
+          <h1 className="page-title">Cadastro de sensor</h1>
         </header>
 
-        <form onSubmit={handleSubmit}>
-          <fieldset className="campo-formulario">
-            <label htmlFor="tipo" className="label-campo">Tipo:</label>
-            <input
-              id="tipo"
-              type="text"
-              className="input-campo"
-              value={tipo}
-              onChange={(e) => setTipo(e.target.value)}
-              required
-            />
-          </fieldset>
+        <div className="form-card">
+          <form onSubmit={handleSubmit}>
 
-          <fieldset className="campo-formulario">
-            <label htmlFor="mac" className="label-campo">MAC Address:</label>
-            <input
-              id="mac"
-              type="text"
-              className="input-campo"
-              value={macAddress}
-              onChange={(e) => setMacAddress(e.target.value)}
-            />
-          </fieldset>
+            <fieldset className="campo-formulario">
+              <label htmlFor="tipo" className="label-campo">Tipo sensor</label>
+              <div className="input-wrapper">
+                <input
+                  id="tipo"
+                  type="text"
+                  className="input-campo"
+                  value={tipo}
+                  onChange={(e) => setTipo(e.target.value)}
+                  placeholder="@exemplo: temperatura"
+                  required
+                />
+                <IoThermometerOutline className="input-icon" />
+              </div>
+            </fieldset>
 
-          <fieldset className="campo-formulario">
-            <label htmlFor="unidade" className="label-campo">Unidade de Medida:</label>
-            <input
-              id="unidade"
-              type="text"
-              className="input-campo"
-              value={unidadeMedida}
-              onChange={(e) => setUnidadeMedida(e.target.value)}
-            />
-          </fieldset>
+            <fieldset className="campo-formulario">
+              <label htmlFor="ambiente" className="label-campo">Ambiente</label>
+              <div className="input-wrapper">
+                <input
+                  id="ambiente"
+                  type="text"
+                  className="input-campo"
+                  value={ambiente}
+                  onChange={(e) => setAmbiente(e.target.value)}
+                  placeholder="@exemplo: laboratório"
+                />
+                < IoBusiness className="input-icon" />
+              </div>
+            </fieldset>
 
-          <fieldset className="campo-formulario">
-            <label htmlFor="latitude" className="label-campo">Latitude:</label>
-            <input
-              id="latitude"
-              type="number"
-              step="any"
-              className="input-campo"
-              value={latitude}
-              onChange={(e) => setLatitude(e.target.value)}
-            />
-          </fieldset>
+            <fieldset className="campo-formulario">
+              <label htmlFor="valor" className="label-campo">Valor</label>
+              <div className="input-wrapper">
+                <input
+                  id="valor"
+                  type="text"
+                  className="input-campo"
+                  value={valor}
+                  onChange={(e) => setValor(e.target.value)}
+                  placeholder="@exemplo: % ºC"
+                />
+                <WiCelsius className="input-icon" />
+              </div>
+            </fieldset>
 
-          <fieldset className="campo-formulario">
-            <label htmlFor="longitude" className="label-campo">Longitude:</label>
-            <input
-              id="longitude"
-              type="number"
-              step="any"
-              className="input-campo"
-              value={longitude}
-              onChange={(e) => setLongitude(e.target.value)}
-            />
-          </fieldset>
+            <fieldset className="campo-formulario">
+              <label htmlFor="mac" className="label-campo">Mac address</label>
+              <div className="input-wrapper">
+                <input
+                  id="mac"
+                  type="text"
+                  className="input-campo"
+                  value={macAddress}
+                  onChange={(e) => setMacAddress(e.target.value)}
+                  placeholder="@exemplo: 7C1A385F9DE2"
+                />
+                <Bs123 className="input-icon" />
+              </div>
+            </fieldset>
 
-          <fieldset className="campo-formulario">
-            <label htmlFor="status" className="label-campo">Status:</label>
-            <input
-              id="status"
-              type="checkbox"
-              className="input-checkbox"
-              checked={status}
-              onChange={(e) => setStatus(e.target.checked)}
-            /> Ativo
-          </fieldset>
+            <fieldset className="campo-formulario">
+              <label htmlFor="situacao" className="label-campo">Situação</label>
+              <div className="input-wrapper">
+                <select
+                  id="situacao"
+                  className="input-campo"
+                  value={situacao}
+                  onChange={(e) => setSituacao(e.target.value)}
+                >
+                  <option value="ativo">Ativo</option>
+                  <option value="inativo">Inativo</option>
+                </select>
+                <BsPlusSlashMinus className="input-icon"/>
 
-          <fieldset className="campo-formulario">
-            <label htmlFor="ambiente" className="label-campo">Ambiente:</label>
-            <select
-              id="ambiente"
-              className="input-campo"
-              value={ambiente}
-              onChange={(e) => setAmbiente(e.target.value)}
-            >
-              <option value="">Selecione um ambiente</option>
-              {ambientes.map((amb) => (
-                <option key={amb.id} value={amb.id}>
-                  {amb.nome}
-                </option>
-              ))}
-            </select>
-          </fieldset>
+              </div>
+            </fieldset>
 
-          <footer className="rodape-formulario">
-            <button type="submit" className="botao-salvar">
-              Salvar
-            </button>
-          </footer>
-        </form>
+            <fieldset className="campo-formulario">
+              <label htmlFor="longitude" className="label-campo">Longitude</label>
+              <div className="input-wrapper">
+                <input
+                  id="longitude"
+                  type="number"
+                  step="any"
+                  className="input-campo"
+                  value={longitude}
+                  onChange={(e) => setLongitude(e.target.value)}
+                  placeholder="@exemplo: -46.633308"
+                />
+                <IoPinSharp  className="input-icon" />
+              </div>
+            </fieldset>
+
+            <fieldset className="campo-formulario">
+              <label htmlFor="latitude" className="label-campo">Latitude</label>
+              <div className="input-wrapper">
+                <input
+                  id="latitude"
+                  type="number"
+                  step="any"
+                  className="input-campo"
+                  value={latitude}
+                  onChange={(e) => setLatitude(e.target.value)}
+                  placeholder="@exemplo: -23.550520"
+                />
+                <IoPinSharp  className="input-icon" />
+              </div>
+            </fieldset>
+
+            <footer className="rodape-formulario">
+              <button type="submit" className="botao-salvar">
+                Criar sensor
+              </button>
+            </footer>
+
+          </form>
+        </div>
       </article>
     </main>
   );

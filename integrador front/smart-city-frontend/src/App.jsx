@@ -7,36 +7,29 @@ import NovoSensor from './pages/NovoSensor';
 import Localizacao from './pages/Localizacao';
 import Historico from './pages/Historico';
 import Ambientes from './pages/Ambientes';
-
-const express = require('express');
-const cors = require('cors');
-const app = express();
-
-// Configuração do CORS
-const corsOptions = {
-  origin: 'http://localhost:3000', // URL do seu front-end
-  methods: ['GET', 'POST'],
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
-
-app.get('/api/dados', (req, res) => {
-  res.json({ message: 'Dados recebidos com sucesso!' });
-});
-
-app.listen(3000, () => {
-  console.log('Servidor rodando na porta 3000');
-});
-
-
-
-/*import PrivateRoute from './auth/PrivateRoute';*/
+// Não precisamos importar Lateral e Rodape diretamente aqui, pois serão importados em Layout
+// import Lateral from './components/Lateral';
+// import Rodape from './components/Rodape';
+import Layout from './components/Layout'; // Importe o novo componente Layout
 import { AuthProvider, useAuth } from './auth/AuthContext';
+import Cadastro from './pages/Cadastro';
 
+// Este componente redireciona para o dashboard se autenticado, ou para o login.
 const RootRedirect = () => {
   const { token } = useAuth();
-  return token ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />;
+  // Se você tiver uma página de dashboard, use-a aqui. Caso contrário, redirecione para 'sensores' ou 'ambientes'
+  return token ? <Navigate to="/sensores" replace /> : <Navigate to="/api/token" replace />;
+};
+
+// Componente para rotas que precisam do layout padrão
+const PrivateLayoutRoute = ({ children }) => {
+  const { token } = useAuth();
+  // Se não houver token, redireciona para a página de login
+  if (!token) {
+    return <Navigate to="/api/token" replace />;
+  }
+  // Se houver token, renderiza a página dentro do layout
+  return <Layout>{children}</Layout>;
 };
 
 function App() {
@@ -44,52 +37,16 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
-          
-          {/* Rota raiz: redireciona conforme token */}
+          <Route path="/api/token" element={<Login />} />
+          <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/" element={<RootRedirect />} />
-
-          <Route path="/login" element={<Login />} />
-
-          <Route
-            path="/localizacao"
-            element={
-                <Localizacao />
-            }
-          />
-
-          <Route
-            path="/sensores"
-            element={
-              /*<PrivateRoute>*/
-                <Sensores />
-               /*</PrivateRoute>*/
-            }
-          />
-
-          <Route
-            path="/novosensor"
-            element={
-               /*<PrivateRoute>*/
-                <NovoSensor />
-               /*</PrivateRoute>*/
-            }
-          />
-          <Route
-            path="/historico"
-            element={
-               /*<PrivateRoute>*/
-                <Historico/>
-               /*</PrivateRoute>*/
-            }
-          />
-          <Route
-            path="/ambientes"
-            element={
-               /*<PrivateRoute>*/
-                <Ambientes/>
-               /*</PrivateRoute>*/
-            }
-          />
+          {/* Rotas que usarão o layout padrão (cabeçalho, lateral, rodapé) */}
+          <Route path="/localizacao" element={<PrivateLayoutRoute><Localizacao /></PrivateLayoutRoute>} />
+          <Route path="/sensores" element={<PrivateLayoutRoute><Sensores /></PrivateLayoutRoute>} />
+          <Route path="/novosensor" element={<PrivateLayoutRoute><NovoSensor /></PrivateLayoutRoute>} />
+          <Route path="/historico" element={<PrivateLayoutRoute><Historico /></PrivateLayoutRoute>} />
+          <Route path="/ambientes" element={<PrivateLayoutRoute><Ambientes /></PrivateLayoutRoute>} />
+          {/* Adicione outras rotas que precisam do layout aqui */}
         </Routes>
       </Router>
     </AuthProvider>

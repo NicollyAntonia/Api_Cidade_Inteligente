@@ -1,82 +1,110 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import { getSensores, deleteSensor } from '../api/sensores';
+import { getSensores } from '../api/sensores';
 import { useAuth } from '../auth/AuthContext';
-import Lateral from '../components/Lateral';
-import '../styles/Sensores.css';
+import '../styles/Sensores.css'; // O CSS principal está aqui
+import { IoSearchCircle } from "react-icons/io5";
 
 const Sensores = () => {
   const { token } = useAuth();
   const [sensores, setSensores] = useState([]);
   const [filtro, setFiltro] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const carregarSensores = useCallback(async () => {
-    const res = await getSensores(token);
-    setSensores(res.data);
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await getSensores(token);
+      setSensores(res.data);
+    } catch (err) {
+      console.error("Erro ao carregar sensores:", err);
+      setError("Erro ao carregar sensores. Tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
+    }
   }, [token]);
 
   useEffect(() => {
     carregarSensores();
   }, [carregarSensores]);
 
-  // 🔍 Filtra por ID ou Tipo
   const filtrarSensores = () => {
-    return sensores.filter(s =>
-      s.tipo.toLowerCase().includes(filtro.toLowerCase()) ||
-      s.id.toString().includes(filtro)
-    );
-  };
-
-  const excluir = async (id) => {
-    if (window.confirm("Tem certeza que deseja deletar?")) {
-      await deleteSensor(id, token);
-      carregarSensores();
+    if (!filtro) {
+      return sensores;
     }
+
+    const termoFiltro = filtro.toLowerCase();
+    return sensores.filter(s => {
+      const statusTexto = typeof s.status === 'boolean' ? (s.status ? 'ativo' : 'inativo') : String(s.status).toLowerCase();
+      
+      return (
+        String(s.id).toLowerCase().includes(termoFiltro) ||
+        s.tipo.toLowerCase().includes(termoFiltro) ||
+        statusTexto.includes(termoFiltro)
+      );
+    });
   };
 
   return (
-    <main className="pagina-sensores">
-      <Lateral />
-      <section className="conteudo">
-        <header className="cabecalho">
-          <h1>Sensores</h1>
-          <input
-            type="text"
-            placeholder="Filtrar por ID ou tipo"
-            value={filtro}
-            onChange={(e) => setFiltro(e.target.value)}
-            className="filtro-input"
-          />
-        </header>
-        <section className="tabela-sensores">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Tipo</th>
-                <th>Valor</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtrarSensores().map(sensor => (
-                <tr key={sensor.id}>
-                  <td>{sensor.id}</td>
-                  <td>{sensor.tipo}</td>
-                  <td>{sensor.valor}</td>
-                  <td>{sensor.status}</td>
-                  <td className="acoes">
-                    <Link to={`/sensores/${sensor.id}/edit`} className="editar">Editar</Link>
-                    <button onClick={() => excluir(sensor.id)} className="excluir">Excluir</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
-      </section>
-    </main>
+    <div className="pagina-sensores">
+      <div className="conteudo">
+        <div className="sensores-container">
+          
+          <section className="secao-controles-sensores">
+            <h1>Sensores</h1>
+            <div className="filtro-container">
+              <input
+                type="text"
+                placeholder="Filtrar por ID ou tipo"
+                value={filtro}
+                onChange={(e) => setFiltro(e.target.value)}
+                className="filtro-input"
+              />
+              <IoSearchCircle className="icon-pesquisa" />
+            </div>
+          </section>
+
+          <section className="tabela-sensores">
+            {loading ? (
+              <p className="mensagem-status">Carregando sensores...</p>
+            ) : error ? (
+              <p className="mensagem-erro">{error}</p>
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tipo</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtrarSensores().length > 0 ? (
+                    filtrarSensores().map(sensor => ( // Corrigido de "Senadores" para "Sensores"
+                      <tr key={sensor.id}>
+                        <td>{sensor.id}</td>
+                        <td>{sensor.tipo}</td>
+                        <td>
+                          {typeof sensor.status === 'boolean' ? (sensor.status ? 'Ativo' : 'Inativo') : sensor.status}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3" className="mensagem-sem-resultados">
+                        Nenhum sensor encontrado com os critérios de filtro.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            )}
+          </section>
+
+        </div>
+      </div>
+    </div>
   );
 };
 
