@@ -91,10 +91,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
-# Se precisar liberar para todos (teste apenas, não recomendado em produção)
-# CORS_ALLOW_ALL_ORIGINS = True
 
-# Caso sua API use autenticação com credenciais (cookies, etc)
 CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = 'cidade_inteligente.urls'
 
