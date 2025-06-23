@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { getSensores } from '../api/sensores';
 import { useAuth } from '../auth/AuthContext';
-import '../styles/Sensores.css'; // O CSS principal está aqui
+import '../styles/Sensores.css';
 import { IoSearchCircle } from "react-icons/io5";
 
 const Sensores = () => {

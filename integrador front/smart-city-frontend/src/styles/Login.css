@@ -50,7 +50,7 @@
   border-radius: 0.5rem;
   font-size: 0.95rem;
   font-weight: normal;
-  /* Adjusted: Input text usually normal weight */
+
 }
 
 /* Ícone à direita dentro do input */
@@ -69,7 +69,7 @@
   padding: 0.6rem;
   background-color: #0F2343;
   color: #ffffff;
-  border: 1px solid #ffffff; /* Borda branca */
+  border: 1px solid #ffffff; 
   border-radius: 0.4rem;
   font-weight: bold;
   cursor: pointer;
@@ -89,16 +89,16 @@
 
 }
 .cadastre-se {
-  color: #ffffff; /* This makes the text "Não tem uma conta?" white */
+  color: #ffffff; 
 }
 
 .cadastre-se a {
-  color: #ffffff; /* This specifically targets the Link (anchor tag) inside .cadastre-se and makes it white */
-  text-decoration: underline; /* You might still want an underline for links, or set to 'none' */
+  color: #ffffff; 
+  text-decoration: underline; 
 }
 
-/* Optional: Add a hover effect for the link */
+
 .cadastre-se a:hover {
-  text-decoration: none; /* Remove underline on hover, or change color slightly */
-  opacity: 0.8; /* Slightly fade on hover */
+  text-decoration: none; 
+  opacity: 0.8; 
 }

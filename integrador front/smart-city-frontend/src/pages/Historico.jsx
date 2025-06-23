@@ -12,7 +12,7 @@ const Historico = () => {
   useEffect(() => {
     const fetchHistorico = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/api/historico/', {
+        const res = await axios.get('http://localhost:8000/historico/', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setHistorico(res.data);

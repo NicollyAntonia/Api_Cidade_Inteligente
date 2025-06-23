@@ -43,7 +43,7 @@ const Lateral = () => {
             </a>
           </li>
           <li>
-            <a href="/api/token" title="Login">
+            <a href="/login" title="Login">
               <IoLogOut  className="icon" />
             </a>
           </li>

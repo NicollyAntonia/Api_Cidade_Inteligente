@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { Bs123 } from "react-icons/bs";
-import { MdEmail } from "react-icons/md"; // Importing an email icon
-import '../styles/Login.css'; // Reusing the same CSS for consistent styling
+import '../styles/Cadastro.css';
+import { registrarUsuario } from '../api/usuarios'; 
 
 const Cadastro = () => {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,39 +15,32 @@ const Cadastro = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
-    setSuccess(''); // Clear previous success messages
+    setError('');
+    setSuccess('');
 
     if (password !== confirmPassword) {
       setError('As senhas não coincidem.');
       return;
     }
 
-    // In a real application, you would make an API call here to register the user.
-    // For demonstration, we'll simulate a successful registration.
     try {
-      // const response = await registerAPI(username, email, password); // Example API call
-      // console.log('Resposta do cadastro:', response.data);
-
-      // Simulate a successful registration
-      console.log('Usuário registrado:', { username, email });
-      setSuccess('Cadastro realizado com sucesso! Você pode fazer login agora.');
+      await registrarUsuario({ username, password }); 
+      setSuccess('Cadastro realizado com sucesso! Redirecionando...');
       
-      // Optionally, redirect to login page after a short delay
       setTimeout(() => {
         navigate('/login');
-      }, 2000); 
-
+      }, 2000);
     } catch (err) {
-      console.error('Erro na requisição de cadastro:', err);
-      setError('Ocorreu um erro ao tentar cadastrar. Tente novamente.');
+      console.error('Erro no cadastro:', err);
+      const mensagem = err.response?.data?.erro || 'Erro ao cadastrar usuário.';
+      setError(mensagem);
     }
   };
 
   return (
-    <main className="pagina-login"> {/* Reusing the same main container styling */}
-      <section className="login-container"> {/* Reusing the same section styling */}
-        <form onSubmit={handleSubmit} className="login-form"> {/* Reusing the same form styling */}
+    <main className="pagina-login">
+      <section className="login-container">
+        <form onSubmit={handleSubmit} className="login-form">
           <h1>Cadastro</h1>
 
           <label htmlFor="username">Usuário</label>
@@ -64,19 +56,8 @@ const Cadastro = () => {
             <IoPersonCircleOutline className="icon" />
           </div>
 
-          <label htmlFor="email">Email</label>
-          <div className="input-wrapper">
-            <input
-              id="email"
-              type="email"
-              placeholder="Ex: seuemail@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <MdEmail className="icon" />
-          </div>
-
+          
+          
           <label htmlFor="password">Senha</label>
           <div className="input-wrapper">
             <input
@@ -104,12 +85,12 @@ const Cadastro = () => {
           </div>
 
           {error && <p className="error">{error}</p>}
-          {success && <p className="success">{success}</p>} {/* Add a success message */}
+          {success && <p className="success">{success}</p>}
 
           <button type="submit">Cadastrar</button>
 
           <p className="login">
-            Já tem uma conta? <Link to="/api/token">Faça login aqui</Link>
+            Já tem uma conta? <Link to="/login">Faça login aqui</Link>
           </p>
         </form>
       </section>

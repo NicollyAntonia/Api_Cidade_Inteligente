@@ -87,7 +87,6 @@ MIDDLEWARE = [
 ]
 # Libere o IP do seu front-end (substitua pelo IP correto da máquina que está rodando o React)
 CORS_ALLOWED_ORIGINS = [
-    "http://192.168.15.3:3000",
     "http://localhost:3000",
 ]
 

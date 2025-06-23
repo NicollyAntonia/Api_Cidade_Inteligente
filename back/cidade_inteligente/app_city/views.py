@@ -1,14 +1,32 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions,status
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from django.utils.dateparse import parse_datetime
 from .models import Ambiente, Sensor, DadoSensor,HistoricoSensor
-from .serializers import AmbienteSerializer, SensorSerializer, DadoSensorSerializer, HistoricoSensorSerializer
+from .serializers import AmbienteSerializer, SensorSerializer, DadoSensorSerializer, HistoricoSensorSerializer,UsuarioRegistroSerializer
 from .importar import importar_dados_de_planilhas
 from .exportar import exportar_dados
+from django.contrib.auth.models import User
 
+#cadastro usuario
+class RegistroUsuarioView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        if not username or not password:
+            return Response({'erro': 'Usuário e senha são obrigatórios'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if User.objects.filter(username=username).exists():
+            return Response({'erro': 'Usuário já existe'}, status=status.HTTP_400_BAD_REQUEST)
+
+        User.objects.create_user(username=username, password=password)
+        return Response({'mensagem': 'Usuário criado com sucesso'}, status=status.HTTP_201_CREATED)
+    
 #viewset para crud completo do modelo ambiente
 class AmbienteViewSet(viewsets.ModelViewSet):
     queryset = Ambiente.objects.all()

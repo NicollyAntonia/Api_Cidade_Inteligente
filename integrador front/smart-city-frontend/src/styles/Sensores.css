@@ -1,5 +1,3 @@
-/* src/styles/Sensores.css */
-
 .pagina-sensores {
     display: flex;
     min-height: 100vh;
@@ -11,7 +9,6 @@
     flex: 1;
     padding: 2rem;
 }
-
 
 
 .secao-controles-sensores {
@@ -93,7 +90,7 @@
     font-weight: normal;
 }
 
-/* Estilo para linhas zebradas */
+
 .tabela-sensores tr:nth-child(even) {
     background-color: #f9fafb;
 }

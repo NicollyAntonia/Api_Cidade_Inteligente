@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/Ambientes.css'; // Certifique-se de que o CSS está linkado corretamente
 import { useAuth } from '../auth/AuthContext';
-
+import { IoSearchCircle } from "react-icons/io5";
 
 const Ambientes = () => {
   const [ambientes, setAmbientes] = useState([]);
@@ -43,6 +43,7 @@ const Ambientes = () => {
             onChange={(e) => setFiltro(e.target.value)}
             className="filtro-input-ambientes" // Classe específica para o filtro de ambientes
           />
+          <IoSearchCircle className="icon-pesquisa-ambientes" />
         </header>
 
         {/* A tabela agora substitui a lista de cartões */}
