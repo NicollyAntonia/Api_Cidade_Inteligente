@@ -38,9 +38,16 @@ class AmbienteViewSet(viewsets.ModelViewSet):
         sensor, created = Sensor.objects.get_or_create(ambiente=ambiente)
         HistoricoSensor.objects.create(sensor=sensor, acao='criado')
 
-    def perform_update(self, serializer):
-        ambiente = self.get_object()
+def perform_update(self, serializer):
+    ambiente = self.get_object()
+
+    try:
         sensor = Sensor.objects.get(ambiente=ambiente)
+    except Sensor.DoesNotExist:
+        sensor = None
+
+    dados_anteriores = None
+    if sensor:
         dados_anteriores = {
             "tipo": sensor.tipo,
             "mac_address": sensor.mac_address,
@@ -50,7 +57,10 @@ class AmbienteViewSet(viewsets.ModelViewSet):
             "status": sensor.status,
             "ambiente": sensor.ambiente_id,
         }
-        serializer.save()
+
+    serializer.save()
+
+    if sensor:
         HistoricoSensor.objects.create(sensor=sensor, acao='atualizado', dados_anteriores=dados_anteriores)
 
 #viewset para crud completo do modelo sensor

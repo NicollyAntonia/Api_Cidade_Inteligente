@@ -1,0 +1,123 @@
+.pagina-editar-ambiente {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f0f4f8;
+}
+
+.content-area-editar {
+  flex: 1;
+  padding: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-header-editar {
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+}
+
+.page-title-editar {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #0e1a33;
+  margin: 0;
+}
+
+.form-card-editar {
+  padding: 1.5rem 2rem;
+  width: 100%;
+  max-width: 400px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.campo-formulario-editar {
+  margin-bottom: 1.2rem;
+  border: none;
+  padding: 0;
+}
+
+.label-campo-editar {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: normal;
+  margin-bottom: 0.4rem;
+  color: #333333;
+}
+
+.input-wrapper-editar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input-wrapper-editar .input-campo-editar {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  color: #555555;
+  font-weight: normal;
+}
+
+.input-campo-editar::placeholder {
+  color: #aaaaaa;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.input-campo-editar:focus {
+  outline: none;
+  border-color: #7a9aff;
+  box-shadow: 0 0 0 3px rgba(122, 154, 255, 0.2);
+}
+
+.input-wrapper-editar .input-icon-editar {
+  position: absolute;
+  right: 1rem;
+  color: #888;
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+.input-campo-editar.select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292%22%20height%3D%22292%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-5.4H18.2c-7.9%200-14.7%206.1-14.7%2013.9%200%207.7%206.1%2013.9%2014.7%2013.9h255.6c7.9%200%2014.7-6.1%2014.7-13.9s-6.1-13.9-14.7-13.9z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 0.7em top 50%;
+  background-size: 0.65em auto;
+  padding-right: 2.5em;
+}
+
+.rodape-formulario-editar {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.botao-salvar-editar {
+  width: 100%;
+  background-color: #0F2343;
+  color: white;
+  padding: 0.8rem 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.botao-salvar-editar:hover {
+  background-color: #0B1C37;
+  box-shadow: 0 4px 8px rgba(204, 204, 204, 0.2);
+}

@@ -1,86 +1,120 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import '../styles/Ambientes.css'; // Certifique-se de que o CSS está linkado corretamente
+import React, { useEffect, useState, useCallback } from 'react';
+import '../styles/Ambientes.css';
 import { useAuth } from '../auth/AuthContext';
 import { IoSearchCircle } from "react-icons/io5";
+import { FaEdit, FaTrash, FaPlusCircle } from 'react-icons/fa';
+import {
+  getAmbientes,
+  deleteAmbiente
+} from '../api/ambientes';
+import { useNavigate } from 'react-router-dom';
 
 const Ambientes = () => {
-  const [ambientes, setAmbientes] = useState([]);
-  const [filtro, setFiltro] = useState(''); // Adicionado estado para o filtro
   const { token } = useAuth();
+  const [ambientes, setAmbientes] = useState([]);
+  const [filtro, setFiltro] = useState('');
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (!token) return;
+  const navigate = useNavigate();
 
-    axios.get('http://localhost:8000/ambientes/', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    .then(response => setAmbientes(response.data))
-    .catch(error => console.error('Erro ao carregar ambientes:', error));
+  const carregar = useCallback(async () => {
+    try {
+      const res = await getAmbientes(token);
+      setAmbientes(res.data);
+      setError(null);
+    } catch {
+      setError('Erro ao carregar ambientes.');
+    }
   }, [token]);
 
-  // Lógica de filtro para os ambientes
-  const ambientesFiltrados = ambientes.filter(ambiente =>
-    ambiente.sig?.toLowerCase().includes(filtro.toLowerCase()) ||
-    ambiente.descricao?.toLowerCase().includes(filtro.toLowerCase()) ||
-    ambiente.ni?.toLowerCase().includes(filtro.toLowerCase()) ||
-    ambiente.responsavel?.toLowerCase().includes(filtro.toLowerCase())
+  useEffect(() => {
+    if (token) carregar();
+  }, [token, carregar]);
+
+  // Limita para os 10 mais recentes antes do filtro
+  const ambientesRecentes = ambientes.slice(0, 10);
+
+  const ambienteFiltrado = ambientesRecentes.filter(a =>
+    [a.sig, a.descricao, a.ni, a.responsavel]
+      .map(x => x?.toLowerCase())
+      .some(t => t?.includes(filtro.toLowerCase()))
   );
 
+  const handleDelete = async (id) => {
+    if (window.confirm('Confirma exclusão desse ambiente?')) {
+      try {
+        await deleteAmbiente(id, token);
+        carregar();
+      } catch {
+        setError('Erro ao excluir.');
+      }
+    }
+  };
+
   return (
-    <main className="pagina-ambientes">
-      {/* O section abaixo agora atua como o "card" principal */}
+    <div className="pagina-ambientes">
       <section className="conteudo-ambientes">
         <header className="cabecalho-ambientes">
           <h1>Ambientes</h1>
-          {/* Campo de filtro adicionado */}
-          <input
-            type="text"
-            placeholder="Filtrar por SIG, descrição, NI ou responsável"
-            value={filtro}
-            onChange={(e) => setFiltro(e.target.value)}
-            className="filtro-input-ambientes" // Classe específica para o filtro de ambientes
-          />
-          <IoSearchCircle className="icon-pesquisa-ambientes" />
+          <div className="acoes-cabecalho" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
+            <div className="filtro-wrapper" style={{ position: 'relative', flex: 1 }}>
+              <input
+                placeholder="Filtrar..."
+                value={filtro}
+                onChange={e => setFiltro(e.target.value)}
+                className="filtro-input-ambientes"
+              />
+              <IoSearchCircle className="icon-pesquisa-ambientes" />
+            </div>
+            <button className="btn-novo" onClick={() => navigate('/ambientes/novo')} >
+              <FaPlusCircle /> Novo
+            </button>
+          </div>
         </header>
 
-        {/* A tabela agora substitui a lista de cartões */}
+        {error && <p className="mensagem-erro">{error}</p>}
+
         <div className="tabela-ambientes">
           <table>
             <thead>
               <tr>
-                <th>SIG</th>
-                <th>Descrição</th>
-                <th>NI</th>
-                <th>Responsável</th>
+                <th>SIG</th><th>Descrição</th><th>NI</th><th>Responsável</th><th>Ações</th>
               </tr>
             </thead>
             <tbody>
-              {ambientesFiltrados.length === 0 ? (
+              {ambienteFiltrado.length === 0 ? (
                 <tr>
-                  {/* colSpan para que a mensagem ocupe todas as colunas da tabela */}
-                  <td colSpan="4" className="vazio" style={{textAlign: 'center', fontStyle: 'italic'}}>
-                    Nenhum ambiente encontrado.
+                  <td colSpan="5" className="vazio">Nenhum ambiente encontrado.</td>
+                </tr>
+              ) : ambienteFiltrado.map(a => (
+                <tr key={a.id}>
+                  <td>{a.sig}</td>
+                  <td>{a.descricao}</td>
+                  <td>{a.ni}</td>
+                  <td>{a.responsavel}</td>
+                  <td className="td-acoes">
+                    <button
+                      onClick={() => navigate(`/ambientes/${a.id}/editar`)}
+                      title="editar"
+                      className="btn-acao editar"  
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(a.id)}
+                      title="excluir"
+                      className="btn-acao excluir"  
+                    >
+                      <FaTrash />
+                    </button>
                   </td>
                 </tr>
-              ) : (
-                // Aplica .slice(0, 10) para limitar a lista aos primeiros 10 itens
-                ambientesFiltrados.slice(0, 10).map((ambiente) => (
-                  <tr key={ambiente.id}>
-                    <td>{ambiente.sig || `Ambiente ${ambiente.id}`}</td>
-                    <td>{ambiente.descricao}</td>
-                    <td>{ambiente.ni || 'N/A'}</td> {/* Exibe 'N/A' se NI for null/undefined */}
-                    <td>{ambiente.responsavel || 'N/A'}</td> {/* Exibe 'N/A' se Responsável for null/undefined */}
-                  </tr>
-                ))
-              )}
+              ))}
             </tbody>
           </table>
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 

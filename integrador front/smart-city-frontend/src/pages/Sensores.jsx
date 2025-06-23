@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { getSensores } from '../api/sensores';
+import { getSensores, deleteSensor } from '../api/sensores'; // Certifique-se que deleteSensor existe
 import { useAuth } from '../auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Sensores.css';
 import { IoSearchCircle } from "react-icons/io5";
+import {  FaEdit, FaTrash } from 'react-icons/fa';
 
 const Sensores = () => {
   const { token } = useAuth();
@@ -10,6 +12,7 @@ const Sensores = () => {
   const [filtro, setFiltro] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const carregarSensores = useCallback(async () => {
     setLoading(true);
@@ -29,19 +32,27 @@ const Sensores = () => {
     carregarSensores();
   }, [carregarSensores]);
 
-  const filtrarSensores = () => {
-    if (!filtro) {
-      return sensores;
+  const handleDelete = async (id) => {
+    if (window.confirm("Tem certeza que deseja excluir este sensor?")) {
+      try {
+        await deleteSensor(id, token);
+        carregarSensores(); // Atualiza a lista após excluir
+      } catch (err) {
+        console.error("Erro ao excluir sensor:", err);
+        setError("Erro ao excluir sensor.");
+      }
     }
+  };
 
-    const termoFiltro = filtro.toLowerCase();
+  const filtrarSensores = () => {
+    if (!filtro) return sensores;
+    const termo = filtro.toLowerCase();
     return sensores.filter(s => {
       const statusTexto = typeof s.status === 'boolean' ? (s.status ? 'ativo' : 'inativo') : String(s.status).toLowerCase();
-      
       return (
-        String(s.id).toLowerCase().includes(termoFiltro) ||
-        s.tipo.toLowerCase().includes(termoFiltro) ||
-        statusTexto.includes(termoFiltro)
+        String(s.id).includes(termo) ||
+        s.tipo.toLowerCase().includes(termo) ||
+        statusTexto.includes(termo)
       );
     });
   };
@@ -50,7 +61,6 @@ const Sensores = () => {
     <div className="pagina-sensores">
       <div className="conteudo">
         <div className="sensores-container">
-          
           <section className="secao-controles-sensores">
             <h1>Sensores</h1>
             <div className="filtro-container">
@@ -77,22 +87,29 @@ const Sensores = () => {
                     <th>ID</th>
                     <th>Tipo</th>
                     <th>Status</th>
+                    <th>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filtrarSensores().length > 0 ? (
-                    filtrarSensores().map(sensor => ( // Corrigido de "Senadores" para "Sensores"
+                    filtrarSensores().map(sensor => (
                       <tr key={sensor.id}>
                         <td>{sensor.id}</td>
                         <td>{sensor.tipo}</td>
+                        <td>{typeof sensor.status === 'boolean' ? (sensor.status ? 'Ativo' : 'Inativo') : sensor.status}</td>
                         <td>
-                          {typeof sensor.status === 'boolean' ? (sensor.status ? 'Ativo' : 'Inativo') : sensor.status}
+                          <button onClick={() => navigate(`/sensores/${sensor.id}/editar`)} className="btn-acao editar">
+                            <FaEdit />
+                          </button>
+                          <button onClick={() => handleDelete(sensor.id)} className="btn-acao excluir">
+                            <FaTrash />
+                          </button>
                         </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="3" className="mensagem-sem-resultados">
+                      <td colSpan="4" className="mensagem-sem-resultados">
                         Nenhum sensor encontrado com os critérios de filtro.
                       </td>
                     </tr>
@@ -101,7 +118,6 @@ const Sensores = () => {
               </table>
             )}
           </section>
-
         </div>
       </div>
     </div>

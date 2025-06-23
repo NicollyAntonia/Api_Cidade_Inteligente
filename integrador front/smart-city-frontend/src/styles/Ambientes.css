@@ -46,24 +46,38 @@
   font-weight: normal;
   margin-bottom: 1.5rem;
 }
+
 .icon-pesquisa-ambientes {
-    position: absolute;
-    right: 1320px;
-    top: 24.5%;
-    transform: translateY(-50%);
-    
-    color: #0e1a33;
-    font-size: 1.4rem;
-    cursor: pointer;
-    border-radius: 100%;
-    padding: 0.4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.8rem;
-    height: 1.8rem;
-    box-sizing: content-box;
-    z-index: 1;
+  position: absolute;
+  right: 1160px;
+  top: 26%;
+  transform: translateY(-50%);
+
+  color: #0e1a33;
+  font-size: 1.4rem;
+  cursor: pointer;
+  border-radius: 100%;
+  padding: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  box-sizing: content-box;
+  z-index: 1;
+}
+
+.btn-novo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #0e1a33;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-Radius: 5px;
+  font-Weight: bold;
+  cursor: pointer;
 }
 
 /* Tabela de ambientes */
@@ -100,3 +114,15 @@
   background-color: #f9fafb;
 }
 
+.btn-acao:hover {
+  transform: scale(1.1);
+}
+
+
+.btn-acao.editar {
+  color: #f39c12;
+}
+
+.btn-acao.excluir {
+  color: #e74c3c;
+}

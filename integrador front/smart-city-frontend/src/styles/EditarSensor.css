@@ -1,0 +1,50 @@
+.pagina-editar-sensor {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  background-color: #f4f6f8;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.form-container {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  margin-top:10%;
+}
+
+.form-editar-sensor label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.form-editar-sensor input,
+.form-editar-sensor select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.form-editar-sensor button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: #3498db;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn-voltar {
+  margin-left: 10px;
+  background-color: #95a5a6;
+}

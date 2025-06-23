@@ -7,6 +7,9 @@ import NovoSensor from './pages/NovoSensor';
 import Localizacao from './pages/Localizacao';
 import Historico from './pages/Historico';
 import Ambientes from './pages/Ambientes';
+import EditarAmbiente from './pages/EditarAmbiente';
+import NovoAmbiente from './pages/NovoAmbiente';
+import EditarSensor from './pages/EditarSensor';
 import Layout from './components/Layout'; 
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import Cadastro from './pages/Cadastro';
@@ -38,7 +41,9 @@ function App() {
           <Route path="/novosensor" element={<PrivateLayoutRoute><NovoSensor /></PrivateLayoutRoute>} />
           <Route path="/historico" element={<PrivateLayoutRoute><Historico /></PrivateLayoutRoute>} />
           <Route path="/ambientes" element={<PrivateLayoutRoute><Ambientes /></PrivateLayoutRoute>} />
-
+          <Route path="/sensores/:id/editar" element={<EditarSensor />} />
+          <Route path="/ambientes/novo" element={<NovoAmbiente />} />
+          <Route path="/ambientes/:id/editar" element={<EditarAmbiente />} />
         </Routes>
       </Router>
     </AuthProvider>
